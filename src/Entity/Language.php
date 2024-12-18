@@ -6,7 +6,7 @@ use App\Repository\LanguagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LanguagesRepository::class)]
-class Languages
+class Language
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

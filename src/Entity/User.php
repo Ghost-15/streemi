@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Enum\AccountStatus;
 use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,6 +21,8 @@ class User
     private ?string $username = null;
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
     #[ORM\Column(type: 'string', enumType: AccountStatus::class)]
     private AccountStatus $accountStatus;
 
@@ -71,6 +75,16 @@ class User
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getAccountStatus(): AccountStatus
@@ -203,4 +217,18 @@ class User
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        return $this->getRoles();
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getUserIdentifier();
+    }
 }
