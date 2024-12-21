@@ -13,6 +13,16 @@ class HubController extends AbstractController
     {
         return $this->render('hub/index.html.twig');
     }
+    #[Route('/subscription', name: 'app_subscription')]
+    public function subscription(): Response
+    {
+        return $this->render('hub/subscriptions.html.twig');
+    }
+    #[Route('/discover', name: 'app_discover')]
+    public function discover(): Response
+    {
+        return $this->render('hub/discover.html.twig');
+    }
     #[Route('/categorie', name: 'app_cat')]
     public function categorie(): Response
     {
@@ -23,9 +33,14 @@ class HubController extends AbstractController
     {
         return $this->render('hub/lists.html.twig');
     }
-    #[Route('/discover', name: 'app_discover')]
-    public function discover(): Response
+    #[Route('/detail', name: 'app_detail')]
+    public function detail(): Response
     {
-        return $this->render('hub/discover.html.twig');
+        return $this->render('hub/detail.html.twig');
+    }
+    #[Route('/detail_serie', name: 'app_detail_serie')]
+    public function detail_serie(): Response
+    {
+        return $this->render('hub/detail_serie.html.twig');
     }
 }
