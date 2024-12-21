@@ -1,16 +1,27 @@
 {% extends 'hub/base.html.twig' %}
 
-{% block title%}Hub{% endblock %}
+{% block content %}
+<html lang="fr">
 
-{% block body %}
+{% block title%}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Streemi</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+{% endblock %}
+<body class="font-montserrat text-sm bg-white">
+        <!-- Left Menu -->
+        <!-- /Left Menu -->
 
-<div class="example-wrapper">
-    <h1>Hello, {{ test }}</h1>
+        <!-- Main Content -->
+            {% include 'hub/parts/movies/movie-card.html.twig' %}
+        <!-- /Main Content -->
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/tatib/PhpstormProjects/streemi/src/Controller/HubController.php</code></li>
-        <li>Your template at <code>C:/Users/tatib/PhpstormProjects/streemi/templates/hub/index.html.twig</code></li>
-    </ul>
-</div>
+        <!-- Right Sidebar -->
+        <!-- /Right Sidebar -->
+</body>
+</html>
 {% endblock %}

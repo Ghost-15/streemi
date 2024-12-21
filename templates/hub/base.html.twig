@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-        {% endblock %}
+{% extends 'hub/parts/left-menu.html.twig' %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+{% block content %}
+
+    {#        {% block stylesheets %}#}
+    {#        {% endblock %}#}
+
+    {#        {% block javascripts %}#}
+    {#            {% block importmap %}{{ importmap('app') }}{% endblock %}#}
+    {#        {% endblock %}#}
+{% endblock %}

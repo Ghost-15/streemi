@@ -6,9 +6,9 @@
 parameters:
 
 services:
-    App\Controller\HubController:
-        class: App\Controller\HubController
-        tags: ['controller.service_arguments']
+#    App\Controller\HubController:
+#        class: App\Controller\HubController
+#        tags: ['controller.service_arguments']
 #        public: true
     # default configuration for services in *this* file
     _defaults:

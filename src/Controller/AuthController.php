@@ -15,4 +15,9 @@ class AuthController extends AbstractController
             'controller_name' => 'AuthController',
         ]);
     }
+    #[Route('/confirm', name: 'app_confirm')]
+    public function confirm(): Response
+    {
+        return $this->render('auth/confirm.html.twig');
+    }
 }
