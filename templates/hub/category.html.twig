@@ -22,10 +22,10 @@
                 <div class="flex flex-row items-center space-x-6">
                     <span class="font-bold text-red-600 text-lg">Films <span class="font-medium text-black">dans la catégorie </span></span>
                     <nav class="flex space-x-6 text-gray-400 font-medium">
-                        <a href="#" class="hover:text-gray-700">Action</a>
-                        <a href="#" class="text-gray-700 font-semibold">Aventure</a>
-                        <a href="#" class="hover:text-gray-700">Comédie</a>
-                        <a href="#" class="hover:text-gray-700">Science Fiction</a>
+{#                        <a href="#" class="hover:text-gray-700">Action</a>#}
+                        <a href="#" class="text-gray-700 font-semibold">{{ categorie.name }}</a>
+{#                        <a href="#" class="hover:text-gray-700">Comédie</a>#}
+{#                        <a href="#" class="hover:text-gray-700">Science Fiction</a>#}
                     </nav>
                 </div>
                 <div class="flex flex-col items-center mt-9">
@@ -43,9 +43,11 @@
             <!-- /include -->
 
             <section class="mt-9">
-                <!-- include -->
-                {% include 'hub/parts/film.html.twig' %}
-                <!-- /include -->
+            <!-- include -->
+                {% for media in medias %}
+                {% include 'hub/parts/film.html.twig' with { media: media } %}
+                {% endfor %}
+            <!-- /include -->
                 <button class="flex flex-col items-center mt-9 w-full">
                     <a class="relative flex w-full bg-red-600 flex-row p-3 items-center justify-center rounded-lg overflow-hidden border cursor-pointer transition hover:bg-red-700 text-white">
                         <span class="font-bold mr-2">

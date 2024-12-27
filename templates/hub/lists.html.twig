@@ -52,7 +52,9 @@
         </section>
         <section class="mt-9">
             <!-- include -->
-            {% include 'hub/parts/film.html.twig' %}
+            {% for media in medias %}
+                {% include 'hub/parts/film.html.twig' with { media: media } %}
+            {% endfor %}
             <!-- /include -->
         </section>
     </main>
