@@ -46,10 +46,14 @@ class Media
     #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'media')]
     private Collection $playlistMedia;
 
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'media')]
+    private Collection $watchHistories;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->playlistMedia = new ArrayCollection();
+        $this->watchHistories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +203,33 @@ class Media
             // set the owning side to null (unless already changed)
             if ($playlistMedium->getMedia() === $this) {
                 $playlistMedium->setMedia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getWatchHistories(): Collection
+    {
+        return $this->watchHistories;
+    }
+
+    public function addWatchHistory(WatchHistory $watchHistory): static
+    {
+        if (!$this->watchHistories->contains($watchHistory)) {
+            $this->watchHistories->add($watchHistory);
+            $watchHistory->setMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatchHistory(WatchHistory $watchHistory): static
+    {
+        if ($this->watchHistories->removeElement($watchHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($watchHistory->getMedia() === $this) {
+                $watchHistory->setMedia(null);
             }
         }
 

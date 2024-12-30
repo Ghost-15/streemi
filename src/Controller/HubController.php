@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Entity\Media;
 use App\Entity\Playlist;
-use App\Entity\PlaylistMedia;
 use App\Entity\PlaylistSubscription;
 use App\Entity\Subscription;
 use App\Repository\MediaRepository;
@@ -19,10 +18,13 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/hub', name: 'app_hub-')]
 class HubController extends AbstractController
 {
-    #[Route('/', name: 'app_index')]
-    public function index(): Response
+    #[Route('', name: 'app_index')]
+    public function index(MediaRepository $mediaRepository): Response
     {
-        return $this->render('hub/index.html.twig');
+        $popularMedias = $mediaRepository->findPopular();
+        return $this->render('hub/index.html.twig',[
+            'popularMedias' => $popularMedias,
+        ]);
     }
     #[Route('/subscription', name: 'app_subscription')]
     public function subscription(EntityManagerInterface $entityManager): Response
@@ -51,12 +53,12 @@ class HubController extends AbstractController
         ]);
     }
     #[Route('/list', name: 'app_list')]
-    public function list(Request $request, EntityManagerInterface $entityManager, PlaylistMediaRepository $playlistMediaRepository): Response
+    public function list(Request $request, EntityManagerInterface $entityManager, PlaylistMediaRepository $playlistMediaRepository, MediaRepository $mediaRepository): Response
     {
         $playlists = $entityManager->getRepository(Playlist::class)->findAll();
         $playlistSubscriptions = $entityManager->getRepository(PlaylistSubscription::class)->findAll();
         $selectedPlaylistId = $request->query->get('selectedPlaylist');
-
+        $medias = [];
         if ($selectedPlaylistId) {
             $playlistMediaArray = $playlistMediaRepository->findAllMediaWhere(['value'=>$selectedPlaylistId]);
         if ($playlistMediaArray) {

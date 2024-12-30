@@ -41,12 +41,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
     private Collection $comments;
 
+    #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'user')]
+    private Collection $watchHistories;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
         $this->playlistSubscriptions = new ArrayCollection();
         $this->subscriptionHistories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->watchHistories = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -230,5 +234,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return $this->getUserIdentifier();
+    }
+
+    /**
+     * @return Collection<int, WatchHistory>
+     */
+    public function getWatchHistories(): Collection
+    {
+        return $this->watchHistories;
+    }
+
+    public function addWatchHistory(WatchHistory $watchHistory): static
+    {
+        if (!$this->watchHistories->contains($watchHistory)) {
+            $this->watchHistories->add($watchHistory);
+            $watchHistory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWatchHistory(WatchHistory $watchHistory): static
+    {
+        if ($this->watchHistories->removeElement($watchHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($watchHistory->getUser() === $this) {
+                $watchHistory->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

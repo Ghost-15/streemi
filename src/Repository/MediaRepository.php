@@ -21,6 +21,18 @@ class MediaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findPopular(): array
+    {
+        return $this
+            ->createQueryBuilder('m')
+            ->select('m')
+            ->join('m.watchHistories', 'w')
+            ->groupBy('m.id')
+            ->orderBy('COUNT(w.id)', 'DESC')
+            ->setMaxResults(10)// Adjust the number of popular movies to retrieve
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Media[] Returns an array of Media objects
