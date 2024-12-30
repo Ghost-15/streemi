@@ -15,6 +15,16 @@ class PlaylistMediaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PlaylistMedia::class);
     }
+    public function findAllMediaWhere(array $criteria): array
+    {
+        return $this
+            ->createQueryBuilder('pm')
+            ->where('pm.playlist = :value')
+            ->setParameter('value', $criteria['value'])
+            ->getQuery()
+            ->getResult();
+    }
+
 
     //    /**
     //     * @return PlaylistMedia[] Returns an array of PlaylistMedia objects

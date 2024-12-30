@@ -44,10 +44,15 @@
 
             <section class="mt-9">
             <!-- include -->
+                <div class="flex items-center justify-between">
+                    <span class="font-semibold text-gray-700 text-base">Les films</span>
+                </div>
+                <ul class="mt-4 grid grid-cols-2 gap-y-5 sm:grid-cols-3 gap-x-5">
                 {% for media in medias %}
                 {% include 'hub/parts/film.html.twig' with { media: media } %}
                 {% endfor %}
-            <!-- /include -->
+                </ul>
+                <!-- /include -->
                 <button class="flex flex-col items-center mt-9 w-full">
                     <a class="relative flex w-full bg-red-600 flex-row p-3 items-center justify-center rounded-lg overflow-hidden border cursor-pointer transition hover:bg-red-700 text-white">
                         <span class="font-bold mr-2">

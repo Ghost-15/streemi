@@ -39,10 +39,11 @@
                     </button>
                 </div>
                 <div class="relative w-full flex text-gray-700 font-medium">
-                    <select class="appearance-none w-full bg-white border border-gray-200 px-7 py-3 rounded-md shadow transition">
-                        <option>#1 - Ma liste custom (43 films & 12 séries)</option>
-                        <option>#2 - Film aviations (14 films & 29 séries)</option>
-                        <option>#3 - Film a voir avec les potos (14 films & 10 séries) - Liste de John Doe</option>
+                    <select id="playlist-selector" class="appearance-none w-full bg-white border border-gray-200 px-7 py-3 rounded-md shadow transition">
+                        <option value="">Sélectionnez une liste de lecture</option>
+                        {% for playlist in playlists %}
+                            <option value="{{ playlist.id }}" {% if playlist.id == selectedPlaylistId %}selected{% endif %}>{{ playlist.name }}</option>
+                        {% endfor %}
                     </select>
                     <div class="pointer-events-none absolute right-2 inset-y-0 flex items-center px-2">
                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>chevron-down-circle</title><path d="M22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12M6,10L12,16L18,10L16.6,8.6L12,13.2L7.4,8.6L6,10Z" /></svg>
@@ -52,9 +53,19 @@
         </section>
         <section class="mt-9">
             <!-- include -->
-            {% for media in medias %}
-                {% include 'hub/parts/film.html.twig' with { media: media } %}
-            {% endfor %}
+            <div class="flex items-center justify-between">
+                <span class="font-semibold text-gray-700 text-base">Les films</span>
+            </div>
+            {% if selectedPlaylistId %}
+                <ul class="mt-4 grid grid-cols-2 gap-y-5 sm:grid-cols-3 gap-x-5">
+                    {% for media in medias %}
+                        {% include 'hub/parts/film.html.twig' with { media: media } %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Veuillez sélectionner une playlist pour voir les films.</p>
+            {% endif %}
+
             <!-- /include -->
         </section>
     </main>
@@ -62,6 +73,15 @@
 
     <!-- Right Sidebar -->
     <!-- /Right Sidebar -->
+
+    <script>
+        document.getElementById('playlist-selector').addEventListener('change', function() {
+            var selectedPlaylistId = this.value;
+            var url = new URL(window.location.href);
+            url.searchParams.set('selectedPlaylist', selectedPlaylistId);
+            window.location.href = url.toString();
+        });
+    </script>
 </body>
 </html>
 {% endblock %}

@@ -43,9 +43,13 @@ class Media
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'media')]
     private Collection $comments;
 
+    #[ORM\OneToMany(targetEntity: PlaylistMedia::class, mappedBy: 'media')]
+    private Collection $playlistMedia;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->playlistMedia = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,9 +151,6 @@ class Media
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
     public function getComments(): Collection
     {
         return $this->comments;
@@ -171,6 +172,33 @@ class Media
             // set the owning side to null (unless already changed)
             if ($comment->getMedia() === $this) {
                 $comment->setMedia(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlaylistMedia(): Collection
+    {
+        return $this->playlistMedia;
+    }
+
+    public function addPlaylistMedium(PlaylistMedia $playlistMedium): static
+    {
+        if (!$this->playlistMedia->contains($playlistMedium)) {
+            $this->playlistMedia->add($playlistMedium);
+            $playlistMedium->setMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylistMedium(PlaylistMedia $playlistMedium): static
+    {
+        if ($this->playlistMedia->removeElement($playlistMedium)) {
+            // set the owning side to null (unless already changed)
+            if ($playlistMedium->getMedia() === $this) {
+                $playlistMedium->setMedia(null);
             }
         }
 

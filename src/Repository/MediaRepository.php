@@ -12,7 +12,7 @@ class MediaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Media::class);
     }
-    public function findAllWhere(array $criteria): array
+    public function findAllWhereMediaType(array $criteria): array
     {
         return $this
             ->createQueryBuilder('m')
