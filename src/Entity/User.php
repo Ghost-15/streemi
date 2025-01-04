@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: WatchHistory::class, mappedBy: 'user')]
     private Collection $watchHistories;
 
+    #[ORM\Column]
+    private array $roles = [];
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
@@ -236,9 +239,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->getUserIdentifier();
     }
 
-    /**
-     * @return Collection<int, WatchHistory>
-     */
     public function getWatchHistories(): Collection
     {
         return $this->watchHistories;
@@ -262,6 +262,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $watchHistory->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }

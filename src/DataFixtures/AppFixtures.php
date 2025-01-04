@@ -10,8 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher){
-    }
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher){}
     public function load(ObjectManager $manager): void
     {
         $app = new User();
@@ -21,6 +20,7 @@ class AppFixtures extends Fixture
         $app->setPassword($this->passwordHasher->hashPassword($app, 'test'));
         $app->setAccountStatus(AccountStatus::DISPONIBLE);
 //        $app->setSubscription(Subscription::class, 'prenium');
+        $app->setRoles(['ROLE_USER']);
 
         $manager->persist($app);
         $manager->flush();
