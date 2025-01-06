@@ -16,8 +16,6 @@ security:
         main:
             lazy: true
             provider: app_provider_user
-            entry_point: App\Security\LoginFormAuthenticator
-            custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -25,10 +23,10 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
 
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
+#            remember_me:
+#                secret: '%kernel.secret%'
+#                lifetime: 604800
+#                path: /
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -51,7 +49,7 @@ security:
         # Le rôle BANNED a moins de permissions et ne peut accéder à aucune route sauf
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
