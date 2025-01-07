@@ -226,7 +226,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return $this->getRoles();
+        return $this->roles;
     }
 
     public function eraseCredentials(): void
@@ -236,7 +236,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->getUserIdentifier();
+        return $this->email;
     }
 
     public function getWatchHistories(): Collection
