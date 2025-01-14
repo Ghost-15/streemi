@@ -1,0 +1,36 @@
+{% block content %}
+    <html lang="fr">
+
+    {% block title%}
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Profil</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+    {% endblock %}
+
+    <body class="font-montserrat text-sm bg-white">
+    <!-- Left Menu -->
+    {% include 'hub/parts/left-menu-alone.html.twig' %}
+    <!-- /Left Menu -->
+
+    <!-- Main Content -->
+    <main class="flex-1 py-10 px-5 sm:px-10">
+        <section>
+            <h1 class="text-lg font-medium text-black">Mon <span class="font-bold text-red-600">profil</span></h1>
+        </section>
+        <section>
+            <nav class="mt-2 flex space-x-6 text-gray-400 font-medium">
+                <a href="" class="hover:text-gray-700">reset mdp</a>
+            </nav>
+        </section>
+    </main>
+    <!-- /Main Content -->
+
+    <!-- Right Sidebar -->
+    <!-- /Right Sidebar -->
+    </body>
+    </html>
+{% endblock %}

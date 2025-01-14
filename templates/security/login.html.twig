@@ -1,41 +1,76 @@
-{#{% extends 'hub/base.html.twig' %}#}
-
-{% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form action="{{ path('app_login') }}"  method="post">
+
+    {% block title%}
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Login</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+    {% endblock %}
+
+    <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
-
-{#        {% if app.user %}#}
-{#            <div class="mb-3">#}
-{#                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>#}
-{#            </div>#}
-{#        {% endif %}#}
-
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Username</label>
-        <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger"> {{ message }} </div>
+        {% endfor %}
+        <div class="flex h-screen flex-col">
+            <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Login</h2>
             </div>
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <div>
+                    <label htmlFor="Username" class="block text-sm font-medium leading-6 text-gray-900">
+                        Email</label>
+                    <div class="mt-2">
+                        <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                               type="text" value="{{ last_username }}" name="_username" id="username" autocomplete="username" required autofocus/>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <label htmlFor="password" class="block text-sm font-medium leading-6 text-gray-900">
+                            Mot de passe</label>
+                        <div class="text-sm">
+                            <a class="font-semibold text-red-600 hover:text-red-300">
+                                Mot de passe oublie?</a>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                               type="password" name="_password" id="password" autocomplete="current-password" required/>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <button class="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            type="submit">
+                        Login
+                    </button>
+
+                </div>
+                <div class="text-sm">
+                    <a href="" class="font-semibold text-red-600 hover:text-red-300">
+                        Creat a User</a>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            </div>
+        </div>
+        {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <input type="checkbox" name="_remember_me" id="_remember_me">
+            <label for="_remember_me">Remember me</label>
+        </div>
         #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
     </form>
 {% endblock %}
