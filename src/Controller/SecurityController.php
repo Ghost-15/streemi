@@ -23,10 +23,20 @@ class SecurityController extends AbstractController
             'error' => $error,
         ]);
     }
-
+    #[Route(path: '/register', name: 'app_register')]
+    public function register(): Response
+    {
+        return $this->render('security/register.html.twig');
+    }
+    #[Route(path: '/saveUser', name: 'app_save_user')]
+    public function saveUser(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }
+//composer require symfony/security-bundle
