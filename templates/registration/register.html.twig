@@ -1,0 +1,96 @@
+{% block body %}
+
+    {% block title%}
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Register</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+    {% endblock %}
+
+
+    <form action="{{ path('app_save_user') }}" method="post">
+
+        <div class="flex h-screen flex-col">
+            <div class="mt-20 sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                    Register
+                </h2>
+            </div>
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="text-center leading-9 tracking-tight text-green-600"> {{ message }}, <a href="{{ path('app_login') }}" class="font-semibold text-sky-800 hover:text-sky-600 hover:underline hover:underline-offset-8">Veuillez cliquer ici pour vous connecter</a> </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="text-center leading-9 tracking-tight text-red-600"> {{ message }} </div>
+            {% endfor %}
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+
+                <div class="mt-4">
+                    <label htmlFor="Username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                    <div class="mt-2">
+                        <input
+                                type=text
+                                placeholder="Entre votre username"
+                                name="username"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                required
+                        />
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label htmlFor="Last name" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                    <div class="mt-2">
+                        <input
+                                type=email
+                                placeholder="Entre votre email"
+                                name="email"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                required
+                        />
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <label htmlFor="password" class="block text-sm font-medium leading-6 text-gray-900">
+                            Mot de passe</label>
+                    </div>
+                    <div class="mt-2">
+                        <input
+                               type="password"
+                               placeholder="Entre le mot de passe"
+                               name="pswd"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                               required/>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label htmlFor="Role" class="block text-sm font-medium leading-6 text-gray-900">Role</label>
+                    <div class="mt-2">
+                        <select name="role" id="role" class="appearance-none w-full bg-white border border-gray-200 px-7 py-3 rounded-md shadow transition">
+                            {% for role in roles %}
+                                <option value="{{ role }}">{{ role|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <button class="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            type="submit">
+                        Register
+                    </button>
+                </div>
+
+{#                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+            </div>
+        </div>
+    </form>
+{% endblock %}

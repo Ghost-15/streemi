@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -22,16 +26,26 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+
     }
-    #[Route(path: '/register', name: 'app_register')]
-    public function register(): Response
+    #[Route('/update-password', name:'app_updateO')]
+    public function updatePassword(Request $request, EntityManagerInterface $entityManager,
+                                   UserPasswordHasherInterface $passwordHasher, Security $security): Response
     {
-        return $this->render('security/register.html.twig');
-    }
-    #[Route(path: '/saveUser', name: 'app_save_user')]
-    public function saveUser(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        $newPassword = $request->request->get('pswd');
+        $user = $security->getUser();
+
+        if ($newPassword) {
+            $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Password updated successfully!');
+        } else {
+            $this->addFlash('error', 'Please provide a valid password.');
+        }
+        return $this->redirectToRoute('app_hub-app_profil');
     }
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
@@ -40,3 +54,4 @@ class SecurityController extends AbstractController
     }
 }
 //composer require symfony/security-bundle
+//php bin/console make:security:form-login
