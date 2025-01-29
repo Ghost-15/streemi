@@ -6,12 +6,12 @@ use App\Entity\User;
 use App\Enum\AccountStatus;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
     }
     #[Route(path: '/saveUser', name: 'app_save_user')]
     public function saveUser(Request $request, UserPasswordHasherInterface $userPasswordHasher,
-                             EntityManagerInterface $entityManager): Response
+                             EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $username = $request->request->get('username');
         $email = $request->request->get('email');
@@ -46,20 +46,28 @@ class RegistrationController extends AbstractController
         $app->setRoles((array)$role);
 
         try {
-            $entityManager->persist($app);
-            $entityManager->flush();
+//            $entityManager->persist($app);
+//            $entityManager->flush();
 
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $app,
-                (new TemplatedEmail())
-                    ->from(new Address('tatibatchi15@gmail.com', 'noreply'))
-                    ->to((string) $app->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            $email = (new Email())
+                ->from('tatibatchi15@gmail.com')
+                ->to('tatibatchi15@hotmail.com')
+                ->subject('Test Email')
+                ->text('This is a test email.');
+
+            $mailer->send($email);
+
+//            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $app,
+//                (new TemplatedEmail())
+//                    ->from(new Address('tatibatchi15@gmail.com', 'noreply'))
+//                    ->to((string) $app->getEmail())
+//                    ->subject('Please Confirm your Email')
+//                    ->htmlTemplate('registration/confirmation_email.html.twig')
+//            );
             $this->addFlash('success', "Bienvenu sur notre plateform");
             return $this->redirectToRoute('app_register');
 
-        } catch (Exception $e){
+        } catch (TransportExceptionInterface $e){
            $this->addFlash('error', "Il y'a un probleme");
             return $this->redirectToRoute('app_register');
         }
@@ -85,3 +93,5 @@ class RegistrationController extends AbstractController
 }
 //composer require symfonycasts/verify-email-bundle
 //php bin/console make:registration-form
+//composer require symfony/mailer
+//composer require symfony/google-mailer
