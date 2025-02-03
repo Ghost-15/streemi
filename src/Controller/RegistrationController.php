@@ -49,13 +49,13 @@ class RegistrationController extends AbstractController
 //            $entityManager->persist($app);
 //            $entityManager->flush();
 
-            $email = (new Email())
+            $mail = (new Email())
                 ->from('tatibatchi15@gmail.com')
                 ->to('tatibatchi15@hotmail.com')
                 ->subject('Test Email')
                 ->text('This is a test email.');
 
-            $mailer->send($email);
+            $mailer->send($mail);
 
 //            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $app,
 //                (new TemplatedEmail())
